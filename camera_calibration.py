@@ -21,7 +21,7 @@ Based on:
 import cv2.cv as cv
 import numpy as np
 import os
-import progressbar
+from progressbar import ProgressBar, Percentage, Bar, Timer
 import argparse
 import random
 import time
@@ -142,10 +142,10 @@ if __name__ == '__main__':
     print "Finding corners...\n"
 
     # Setup progress bar
-    widgets = [progressbar.Percentage(), ' ',
-               progressbar.Bar(marker='-', left='[', right=']'),
-               ' ', progressbar.Timer()]
-    pbar = progressbar.ProgressBar(widgets=widgets,
+    widgets = [Percentage(), ' ',
+               Bar(marker='-', left='[', right=']'),
+               ' ', Timer()]
+    pbar = ProgressBar(widgets=widgets,
                        maxval=nframes).start()
 
     for f in xrange(nframes):
