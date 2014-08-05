@@ -19,7 +19,7 @@ Based on:
 import cv
 import os
 from setupCV import setupCV
-from progressbar import ProgressBar, Percentage, Bar, Timer
+from progressbar import ProgressBar, Percentage, Bar
 import argparse
 
 if __name__ == '__main__':
@@ -98,8 +98,7 @@ if __name__ == '__main__':
     cv.InitUndistortMap(camera_matrix, dist_coeffs, map1, map2)
 
     widgets = [Percentage(), ' ',
-               Bar(marker='-', left='[', right=']'),
-               ' ', Timer()]
+               Bar(marker='-', left='[', right=']')]
     pbar = ProgressBar(widgets=widgets,
                        maxval=nframes).start()
 

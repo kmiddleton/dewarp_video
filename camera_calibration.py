@@ -21,7 +21,7 @@ Based on:
 import cv2.cv as cv
 import numpy as np
 import os
-from progressbar import ProgressBar, Percentage, Bar, Timer
+from progressbar import ProgressBar, Percentage, Bar
 import argparse
 import random
 import time
@@ -143,8 +143,7 @@ if __name__ == '__main__':
 
     # Setup progress bar
     widgets = [Percentage(), ' ',
-               Bar(marker='-', left='[', right=']'),
-               ' ', Timer()]
+               Bar(marker='-', left='[', right=']')]
     pbar = ProgressBar(widgets=widgets,
                        maxval=nframes).start()
 
