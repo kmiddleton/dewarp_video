@@ -18,9 +18,9 @@ Based on:
 
 import cv
 import os
+import argparse
 from setupCV import setupCV
 from progressbar import ProgressBar, Percentage, Bar
-import argparse
 
 if __name__ == '__main__':
     # Parse arguments

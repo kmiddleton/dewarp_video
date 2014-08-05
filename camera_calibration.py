@@ -19,13 +19,11 @@ Based on:
 """
 
 import cv2.cv as cv
-import numpy as np
-import os
 from progressbar import ProgressBar, Percentage, Bar
 import argparse
 import random
 import time
-from setupCV import setupCV
+import sys
 
 if __name__ == '__main__':
     # Tic
