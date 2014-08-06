@@ -42,11 +42,14 @@ if __name__ == '__main__':
                         help='Output raw images',
                         action="store_true",
                         required=False)
+    parser.add_argument('--uncompressed',
+                        help='Output uncompressed video',
+                        action="store_true",
+                        required=False)
     args = parser.parse_args()
 
-    # Get video files name and set output name
+    # Get video file name
     vidFileName = args.file
-    outfile = vidFileName + '_undistort.m4v'
 
     cameraMatrixFile = args.camera
     distortionCoefsFile = args.distortion
@@ -56,12 +59,24 @@ if __name__ == '__main__':
 
     # Save raw images?
     if args.raw:
-        print "Will be saving raw images.\n"
+        print "\nSaving raw images.\n"
         saveRaw = args.raw
         outdir = vidFileName + '_raw/'
         os.makedirs(outdir)
     else:
         saveRaw = False
+
+    # Save uncompressed video?
+    if args.uncompressed:
+        print "\nSaving uncompressed video.\n"
+        movieSuffix = '.avi'
+        fourcc = cv.CV_FOURCC('I', '4', '2', '0')
+    else:
+        movieSuffix = '.m4v'
+        fourcc = cv.CV_FOURCC('m', 'p', '4', 'v')
+
+    # Set movie output file name
+    outfile = vidFileName + '_undistort' + movieSuffix
 
     # Read and convert camera matrix and distortion coefficients files
     camera_matrix, dist_coeffs = setupCV(cameraMatrixFile,
@@ -80,10 +95,6 @@ if __name__ == '__main__':
 
     print 'Num Frames = ', nframes
     print 'Frame rate =', fps, 'frames per sec'
-
-    # Prepare for new movie
-    # Output format
-    fourcc = cv.CV_FOURCC('m', 'p', '4', 'v')
 
     # Create writer for movie
     writer = cv.CreateVideoWriter(
