@@ -72,7 +72,7 @@ if __name__ == '__main__':
         movieSuffix = '.avi'
         fourcc = cv.CV_FOURCC('I', '4', '2', '0')
     else:
-        movieSuffix = '.m4v'
+        movieSuffix = '.mp4'
         fourcc = cv.CV_FOURCC('m', 'p', '4', 'v')
 
     # Set movie output file name
