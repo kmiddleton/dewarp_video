@@ -28,10 +28,10 @@ if __name__ == '__main__':
     parser.add_argument('-f', '--file',
                         help='File to convert',
                         required=True)
-    parser.add_argument('--fps',
-                        help='Frames per second',
-                        type=int,
-                        required=True)
+#    parser.add_argument('--fps',
+#                        help='Frames per second',
+#                        type=int,
+#                        required=True)
     parser.add_argument('-c', '--camera',
                         help='Camera matrix file',
                         required=True)
@@ -55,7 +55,8 @@ if __name__ == '__main__':
     distortionCoefsFile = args.distortion
 
     # fps
-    fps = args.fps
+    fps = 30
+#    fps = args.fps
 
     # Save raw images?
     if args.raw:
@@ -72,7 +73,7 @@ if __name__ == '__main__':
         movieSuffix = '.avi'
         fourcc = cv.CV_FOURCC('I', '4', '2', '0')
     else:
-        movieSuffix = '.mp4'
+        movieSuffix = '.m4v'
         fourcc = cv.CV_FOURCC('m', 'p', '4', 'v')
 
     # Set movie output file name
