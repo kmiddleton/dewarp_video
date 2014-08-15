@@ -11,7 +11,7 @@ movName = [movpname, movfname];
 [calfname, calpname] = uigetfile('*.*','Select the camera calibration file');
 camCalibfname = [calpname, calfname];
 load(camCalibfname);
-camCalib = s.camCalib;
+camCalib = s.camParams;
 
 % Ask to trim frames from the start
 fprintf('Would you like to trim frames from the start?\n')
@@ -32,20 +32,30 @@ outfile = [movName, '_undistort.mp4'];
 writerObj = VideoWriter(outfile, 'MPEG-4');
 open(writerObj);
 
+fprintf('\nProcessing starting from frame %d.\n\n', offset + 1); 
+
+% Cut off the last frame
+nFrames = nFrames - (offset + 1);
+
 tStart = tic;
 h = waitbar(0,'Initializing...');
 for i = (offset + 1):nFrames
-    I = rgb2gray(read(mov, (frame + offset)));
+    I = rgb2gray(read(mov, (i + offset)));
     J = undistortImage(I, camCalib);
     writeVideo(writerObj, J);
+    perc = i / nFrames;
+    waitbar(perc, h, sprintf('Processing frame: %d / %d', ...
+        i, nFrames))
 end
 
 tEnd = toc(tStart);
-fprintf('%d minutes and %f seconds\n\n',floor(tEnd/60),rem(tEnd,60));
+fprintf('%d minutes and %f seconds\n\n', ...
+    floor(tEnd/60),rem(tEnd,60));
 close(h)
 
 pause(0.1); % Allow waitbar to close
 
+fprintf('Writing %s.\n\n', outfile);
 close(writerObj);
 
 end

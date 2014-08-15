@@ -2,6 +2,7 @@ function [] = camera_calibration()
 %camera_calibration Calibrate two cameras using checkerboard pattern
 
 clear all
+close all
 
 %% Read movies
 
@@ -11,13 +12,13 @@ movName1 = [pname1, fname1];
 [fname2, pname2]=uigetfile('*.*','Select the right video (Camera 2)');
 movName2 = [pname2, fname2];
 
-[Cam1, Cam2, nFrames] = compareMovies(movName1, movName2);
+[Cam1, Cam2, nFrames1, nFrames2] = compareMovies(movName1, movName2);
 
 %% Camera 1 (left)
 fprintf('Analysing %s\n\n', movName1);
 
 calPtsCam1 = ...
-    getCalibrationPoints(Cam1, movName1, nFrames);
+    getCalibrationPoints(Cam1, movName1, nFrames1);
 
 calPtsCam1 = trimCalibrationPoints(calPtsCam1);
 
@@ -27,7 +28,7 @@ EstimateCameraParameters(calPtsCam1, movName1);
 fprintf('Analysing %s\n\n', movName2);
 
 calPtsCam2 = ...
-    getCalibrationPoints(Cam2, movName2, nFrames);
+    getCalibrationPoints(Cam2, movName2, nFrames2);
 
 calPtsCam2 = trimCalibrationPoints(calPtsCam2);
 
@@ -35,32 +36,30 @@ EstimateCameraParameters(calPtsCam2, movName2);
 end
 
 %% compareMovies
-function [Cam1, Cam2, nFrames] = ...
+function [Cam1, Cam2, nFrames1, nFrames2] = ...
     compareMovies(movName1, movName2)
 
-fprintf('\nComparing movies...\n\n')
+fprintf('\nComparing videos...\n\n')
 
 % Load movies
 Cam1 = VideoReader(movName1);
 Cam2 = VideoReader(movName2);
 
-fr1 = Cam1.NumberOfFrames;
-fr2 = Cam2.NumberOfFrames;
+nFrames1 = Cam1.NumberOfFrames;
+nFrames2 = Cam2.NumberOfFrames;
 
-fprintf('Camera 1: %d frames\n', fr1);
-fprintf('Camera 2: %d frames\n\n', fr2);
+fprintf('Camera 1: %d frames\n', nFrames1);
+fprintf('Camera 2: %d frames\n\n', nFrames2);
 
-if fr2 > fr1
-    nFrames = fr1;
+if nFrames2 > nFrames1
     %    offset1 = 0;
-    offset2 = 1 + (fr2 - fr1);
+    offset2 = 1 + (nFrames2 - nFrames1);
     %    nStart1 = 1;
     %    nStart2 = offset2;
     fprintf(['Looks like Camera 2 has %d more frames ', ...
         'than Camera 1. Take note.\n\n'], offset2);
-elseif fr1 > fr2
-    nFrames = fr2;
-    offset1 = 1 + (fr1 - fr2);
+elseif nFrames1 > nFrames2
+    offset1 = 1 + (nFrames1 - nFrames2);
     %    offset2 = 0;
     %    nStart1 = offset1;
     %    nStart2 = 1;
@@ -70,7 +69,6 @@ else
     sprintf('Equal frames.\n');
     %   nStart1 = 1;
     %   nStart2 = 1;
-    nFrames = fr1;
     %   offset1 = 0;
     %   offset2 = 0;
     fprintf('Looks like the videos have equal frames.\n\n')
@@ -149,7 +147,7 @@ maxFrames = 100;
 
 Found = size(CalibrationPoints, 3);
 if Found > maxFrames
-    fprintf(['\nUsing a random subset of %d images ', ...
+    fprintf(['Using a random subset of %d images ', ...
         'for calibration.\n\n'], maxFrames)
     CalibrationPoints = ...
         CalibrationPoints(:, :, randperm(Found, maxFrames));
