@@ -64,12 +64,12 @@ if __name__ == '__main__':
 
     # Setup grids to defaults if not passed as arguments
     if not args.rows:
-        pts_arow = 8  # Number of internal intersections
+        pts_arow = 9  # Number of internal intersections
     else:
         pts_arow = args.rows
 
     if not args.columns:
-        pts_acol = 8
+        pts_acol = 6
     else:
         pts_acol = args.columns
 
