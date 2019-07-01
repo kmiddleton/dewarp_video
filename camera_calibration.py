@@ -96,18 +96,19 @@ if __name__ == '__main__':
     # Video file
     vidFileName = args.file
 
-    # Pattern
-    patternSize = (pts_arow, pts_acol)
-
     # fps
     fps = args.fps
 
+    ##########################################################################
     # Checking
     print("\n------")
     print("Intersections:", pts_arow, "x", pts_acol)
     print("Square size:", grid_width, "cm x", grid_height, "cm")
     print("Video:", vidFileName)
     print("------\n")
+
+    # Pattern
+    patternSize = (pts_arow, pts_acol)
 
     # Open movie
     vidFile = cv2.VideoCapture(vidFileName)
