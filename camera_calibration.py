@@ -178,6 +178,10 @@ if __name__ == '__main__':
     # Cutoff the empty end of corners
     corners = corners[0:nboard]
 
+    #import pickle
+    #pickle.dump(corners, open("corners.pkl", "wb"))
+    #corners = pickle.load(open("corners.pkl", "rb"))
+    
     # Calibration
     # Check that there aren't too many images (~100; downsample if so)
     if nboard > max_images:
