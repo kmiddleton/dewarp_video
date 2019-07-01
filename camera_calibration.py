@@ -181,14 +181,14 @@ if __name__ == '__main__':
     #import pickle
     #pickle.dump(corners, open("corners.pkl", "wb"))
     #corners = pickle.load(open("corners.pkl", "rb"))
-    
+
     # Calibration
     # Check that there aren't too many images (~100; downsample if so)
     if nboard > max_images:
         print("Reducing the set of images with detected corners to", \
             max_images, "images by random selection.\n")
         corners = [corners[i] for i in
-                   sorted(random.sample(xrange(len(corners)),
+                   sorted(random.sample(range(len(corners)),
                    max_images))]
         nboard = len(corners)
 
