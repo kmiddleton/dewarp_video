@@ -54,3 +54,5 @@ docs/_build/
 
 .dropbox
 Icon*
+
+.DS_Store
