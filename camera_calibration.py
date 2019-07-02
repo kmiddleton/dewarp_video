@@ -147,8 +147,9 @@ if __name__ == '__main__':
         # Find corners
         retcode, cor = \
             cv2.findChessboardCorners(BWImg, patternSize,
-                                     cv2.CALIB_CB_ADAPTIVE_THRESH |
-                                     cv2.CALIB_CB_FILTER_QUADS)
+                                     cv2.CALIB_CB_ADAPTIVE_THRESH +
+                                     cv2.CALIB_CB_FAST_CHECK +
+                                     cv2.CALIB_CB_NORMALIZE_IMAGE)
 
         if retcode == 1:
             # Refine corners with subpixel accuracy
@@ -171,7 +172,7 @@ if __name__ == '__main__':
 
     print("\nFound", nboard, "images with corners.\n")
 
-    if nboard == 0:
+    if len(corners) == 0:
         print("No corners detected.\n")
         sys.exit()
 
@@ -184,7 +185,7 @@ if __name__ == '__main__':
 
     # Calibration
     # Check that there aren't too many images (~100; downsample if so)
-    if nboard > max_images:
+    if len(corners) > max_images:
         print("Reducing the set of images with detected corners to", \
             max_images, "images by random selection.\n")
         corners = [corners[i] for i in
