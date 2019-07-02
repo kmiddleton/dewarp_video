@@ -109,12 +109,7 @@ if __name__ == '__main__':
     map2 = cv.CreateImage((width, height), cv.IPL_DEPTH_32F, 1)
     cv.InitUndistortMap(camera_matrix, dist_coeffs, map1, map2)
 
-    widgets = [Percentage(), ' ',
-               Bar(marker='-', left='[', right=']')]
-    pbar = ProgressBar(widgets=widgets,
-                       maxval=nframes).start()
-
-    for f in xrange(nframes):
+    for f in range(nframes):
         frameImg = cv.QueryFrame(vidFile)
         if frameImg is None:
             print "no frame", f, "flawed. Cancel"
@@ -128,13 +123,5 @@ if __name__ == '__main__':
             outfileName = outdir + vidFileName + '_' + \
                 format(f, "04d") + '.jpg'
             cv.SaveImage(outfileName, undistimage)
-
-        k = cv.WaitKey(1)
-        if k % 0x100 == 27:
-            # User has press the ESC key, then exit
-            break
-        pbar.update(f+1)
-
-    pbar.finish()
 
     del writer
